@@ -27,10 +27,10 @@
    ```
    ![multi-nodes-dashboard-url](images/multi-nodes-url.png)
 
-5. cd into the k8s-manifest directory and Use this command to create the Redis leader deployment: The guestbook application uses Redis to store its data.
+5. cd into the <b>php-deployment-manifest</b> directory and Use this command to create the Redis leader deployment: The guestbook application uses Redis to store its data.
 
    ```
-   kubectl apply -f redis-leader-deployment.yaml 
+   kubectl apply -f redis-leader.yaml 
    ```
 
    Check out the pod with:
@@ -41,41 +41,30 @@
 
 6. Other commands to apply the deployments andd services:
    ```
-   kubectl apply -f redis-leader-service.yaml
+   kubectl apply -f redis-follower.yaml
 
-   kubectl get service
+   kubectl apply -f frontend.yaml
 
-   kubectl apply -f redis-follower-deployment.yaml
-
-   kubectl get pods 
-
-   kubectl apply -f redis-follower-service.yaml
-
-   kubectl apply -f frontend-deployment.yaml
-
-   kubectl get pods -l app=guestbook -l tier=frontend
-
-   kubectl apply -f frontend-service.yaml
-
-   kubectl get service
+   kubectl get all
 
    ```
 
-7. To View the Frontend Service via kubectl port-forward:
+7. To View the Frontend Service via kubectl port-forward. Note that you cannot use the loadbalancer type of service because minikube does not support it:
    
    ```
    kubectl port-forward svc/frontend 8080:80
    ```
-
+   
     On your web browser, use the url,  `http://localhost:8080` to access the app.
 
     ![guestbook-application](images/guestbook.png)
 
 
-8. You can allso scalle up or down with;
+8. You can also scale up or down with:
    
    ```
    kubectl scale deployment frontend --replicas=5
+
    kubectl scale deployment frontend --replicas=2
    ```
 
@@ -83,9 +72,11 @@
     ```
     kubectl delete deployment -l app=redis
     kubectl delete service -l app=redis
-    kubectl delete deployment frontend
+    kubectl delete deployment frontend-deployment
     kubectl delete service frontend
+    minikube delete --all
     ```
+
     
 
 

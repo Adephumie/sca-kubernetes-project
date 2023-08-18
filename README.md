@@ -10,5 +10,3 @@ The aim of the project is to build a simple multi-tier web app using Kubernetes 
     ```
     minikube start --nodes 3 -p multinode-demo
     ```
-4. 
-
